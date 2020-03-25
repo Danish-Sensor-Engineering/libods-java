@@ -1,4 +1,4 @@
-package libsensor;
+package biz.nellemann.libsensor;
 
 import java.util.Deque;
 

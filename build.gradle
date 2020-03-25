@@ -12,12 +12,20 @@ plugins {
 
     // Apply the groovy plugin to also add support for Groovy (needed for Spock)
     id 'groovy'
+
+    // Code coverage of tests
+    id 'jacoco'
+
+    // For publishing library to bintray
+    id "com.jfrog.bintray" version "1.8.4"
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -28,13 +36,59 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("org.slf4j:slf4j-api:${slf4jVersion}")
 
-    runtime("org.slf4j:slf4j-simple:${slf4jVersion}")
+    runtimeOnly("org.slf4j:slf4j-simple:${slf4jVersion}")
 
     // Use the latest Groovy version for Spock testing
-	testRuntime("org.slf4j:slf4j-simple:${slf4jVersion}")
+	testRuntimeOnly("org.slf4j:slf4j-simple:${slf4jVersion}")
     testImplementation("org.codehaus.groovy:groovy-all:${groovyVersion}")
 
     // Use the awesome Spock testing and specification framework even with Java
     testImplementation("org.spockframework:spock-core:${spockVersion}")
     testImplementation('junit:junit:4.12')
 }
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    configurations = ['archives']
+    pkg {
+        repo = "libs"
+        name = "libsensor"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = licenses
+        publish = true
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+jacocoTestReport {
+    group = "verification"
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/coverage")
+    }
+}
+test.finalizedBy jacocoTestReport
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            includes = ['biz.nellemann.libsensor']
+            excludes = ['biz.nellemann.libsensor.Demo']
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.7
+            }
+        }
+    }
+}
+check.dependsOn jacocoTestCoverageVerification

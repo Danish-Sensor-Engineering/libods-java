@@ -1,4 +1,4 @@
-package libsensor;
+package biz.nellemann.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortEvent;
