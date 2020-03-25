@@ -1,0 +1,10 @@
+**/bin
+**/.settings
+**/build
+.idea
+.gradle
+.vscode
+.project
+.classpath
+**/*.rej
+**/*.orig
