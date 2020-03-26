@@ -16,6 +16,9 @@ plugins {
     // Code coverage of tests
     id 'jacoco'
 
+    // For publishing to maven repository
+    id 'maven-publish'
+
     // For publishing library to bintray
     id "com.jfrog.bintray" version "1.8.4"
 }
@@ -45,6 +48,17 @@ dependencies {
     // Use the awesome Spock testing and specification framework even with Java
     testImplementation("org.spockframework:spock-core:${spockVersion}")
     testImplementation('junit:junit:4.12')
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
 }
 
 bintray {
@@ -80,8 +94,8 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = 'CLASS'
-            includes = ['biz.nellemann.libsensor']
-            excludes = ['biz.nellemann.libsensor.Demo']
+            includes = [ 'biz.nellemann.libsensor.*' ]
+            excludes = [ 'biz.nellemann.libsensor.Demo', 'biz.nellemann.libsensor.Library' ]
 
             limit {
                 counter = 'LINE'

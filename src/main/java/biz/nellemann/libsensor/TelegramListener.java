@@ -22,7 +22,7 @@ public abstract class TelegramListener implements SerialPortMessageListener {
     protected Deque<Integer> deque;
 
 
-    public int toInt(byte[] message) {
+    public int getUnit(byte[] message) {
 
         // Incorrect message size
         if(message.length != 3) {
@@ -39,10 +39,6 @@ public abstract class TelegramListener implements SerialPortMessageListener {
         return number;
     }
 
-    public double toDouble(byte[] message) {
-        int number = toInt(message);
-        return ((double)number) / 10.0;
-    }
 
     @Override
     public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_RECEIVED; }
@@ -56,8 +52,8 @@ public abstract class TelegramListener implements SerialPortMessageListener {
 
         // We split into two Datagram
         if(delimitedMessage.length == 6) {
-            deque.push(this.toInt(Arrays.copyOfRange(delimitedMessage, 0, 3)));
-            deque.push(this.toInt(Arrays.copyOfRange(delimitedMessage, 3, 6)));
+            deque.push(this.getUnit(Arrays.copyOfRange(delimitedMessage, 0, 3)));
+            deque.push(this.getUnit(Arrays.copyOfRange(delimitedMessage, 3, 6)));
         }
     }
 
