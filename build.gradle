@@ -95,7 +95,7 @@ jacocoTestCoverageVerification {
         rule {
             element = 'CLASS'
             includes = [ 'biz.nellemann.libsensor.*' ]
-            excludes = [ 'biz.nellemann.libsensor.Demo', 'biz.nellemann.libsensor.Library' ]
+            excludes = [ 'biz.nellemann.libsensor.SerialDemo', 'biz.nellemann.libsensor.SerialLibrary' ]
 
             limit {
                 counter = 'LINE'

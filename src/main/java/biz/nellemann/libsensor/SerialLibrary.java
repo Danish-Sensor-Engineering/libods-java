@@ -1,46 +1,25 @@
 package biz.nellemann.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Library {
-
-    // Inject logger
-    final static Logger log = LoggerFactory.getLogger(Library.class);
+/**
+ * This is mostly a wrapper for the jSerialComm library
+ * https://fazecast.github.io/jSerialComm/
+ */
+public class SerialLibrary {
 
     // Serialport
     protected SerialPort comPort;
 
-    // Queue of measurements
-    final protected TelegramDeque<Integer> telegramDeque = new TelegramDeque<>(5000);
-
-
-    public void printDeque() {
-        for(Integer meas : telegramDeque) {
-            System.out.println(meas.toString());
-        }
-    }
-
-    public Integer getTelegram() {
-        return telegramDeque.pop();
-    }
-
-
-    /**
-     * Serial port related
-     */
-
-    public void printSerialPorts() {
+    public static void printSerialPorts() {
         final SerialPort serialPorts[] = SerialPort.getCommPorts();
         for (final SerialPort port : serialPorts) {
-            System.out.println("Serial port: " + port.getSystemPortName() + " - " + port.getDescriptivePortName());
+            System.out.println("Serial port: " + port.getSystemPortName() + " (" + port.getDescriptivePortName() +")");
         }
     }
-
 
     public List<String> getSerialPorts() {
         final SerialPort serialPorts[] = SerialPort.getCommPorts();
@@ -51,13 +30,11 @@ public class Library {
         return serialPortNames;
     }
 
-
     public void openPort(final String portName, final int baudRate) {
         comPort = SerialPort.getCommPort(portName);
         comPort.setBaudRate(baudRate);
         comPort.openPort();
     }
-
 
     public void closePort() {
         if(comPort != null && comPort.isOpen()) {
@@ -66,14 +43,11 @@ public class Library {
         }
     }
 
-
-    public void startListener() {
+    public void startListener(TelegramListener listener) {
         if(comPort != null && comPort.isOpen()) {
-            TelegramListener16Bit listener = new TelegramListener16Bit(telegramDeque);
             comPort.addDataListener(listener);
         }
     }
-
 
     public void stopListener() {
         if(comPort != null && comPort.isOpen()) {

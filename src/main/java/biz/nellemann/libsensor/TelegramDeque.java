@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 
 public class TelegramDeque<T> extends ArrayDeque<T> {
 
+    private static final long serialVersionUID = 1L;
+
     private final int maxSize;
 
     public TelegramDeque(int maxSize) {

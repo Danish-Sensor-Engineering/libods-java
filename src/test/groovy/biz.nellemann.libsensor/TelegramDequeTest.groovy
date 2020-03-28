@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class TelegramDequeTest extends Specification {
 
-    def "make sure we do not grow above maxLimit"() {
+    def "make sure we do not grow above maxSize"() {
         setup:
         def telegramDeque = new TelegramDeque<Integer>(3)
         telegramDeque.add(1)

@@ -1,14 +1,14 @@
 package biz.nellemann.libsensor;
 
-import java.util.Deque;
-
 public class TelegramListener18Bit extends TelegramListener {
 
+/*
     TelegramListener18Bit(Deque deque) {
         this.deque = deque;
     }
+*/
 
-    protected int convert(byte data1, byte data2, byte data3) {
+    protected int convert(final byte data1, final byte data2, final byte data3) {
         return 1024 * (data1 & 3) + 256 * data2 + data3;
     }
 
