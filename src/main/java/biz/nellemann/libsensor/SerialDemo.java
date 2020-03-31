@@ -6,7 +6,11 @@ import java.util.Observer;
 public class SerialDemo implements Observer {
 
     final SerialLibrary serialLibrary = new SerialLibrary();
+
+    // Store last 5000 results
     final protected TelegramDeque<Integer> telegramDeque = new TelegramDeque<>(5000);
+
+    // We use the 16bit listener,
     final protected TelegramListener16Bit listener = new TelegramListener16Bit();
 
 

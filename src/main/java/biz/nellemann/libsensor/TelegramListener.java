@@ -8,10 +8,12 @@ import java.util.*;
 
 public abstract class TelegramListener extends Observable implements SerialPortMessageListener {
 
+    protected Configuration configuration;
+
     protected TelegramListener() {
     }
 
-   /* TelegramListener(Deque deque) {
+   /*TelegramListener(Deque deque) {
         throw new UnsupportedOperationException("Use either the 16bit or 18bit implementation.");
     }*/
 

@@ -95,10 +95,13 @@ jacocoTestCoverageVerification {
         rule {
             element = 'CLASS'
             includes = [ 'biz.nellemann.libsensor.*' ]
-            excludes = [ 'biz.nellemann.libsensor.SerialDemo', 'biz.nellemann.libsensor.SerialLibrary' ]
-
-            limit {
-                counter = 'LINE'
+            excludes = [
+                'biz.nellemann.libsensor.SerialDemo',
+                'biz.nellemann.libsensor.SerialLibrary',
+                'biz.nellemann.libsensor.Configuration',
+            ]
+            limit { // See: https://www.eclemma.org/jacoco/trunk/doc/counters.html
+                counter = 'METHOD'
                 value = 'COVEREDRATIO'
                 minimum = 0.7
             }
