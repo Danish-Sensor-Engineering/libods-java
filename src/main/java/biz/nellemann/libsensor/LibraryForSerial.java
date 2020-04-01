@@ -9,7 +9,7 @@ import java.util.List;
  * This is mostly a wrapper for the jSerialComm library
  * https://fazecast.github.io/jSerialComm/
  */
-public class SerialLibrary {
+public class LibraryForSerial extends Library {
 
     // Serialport
     protected SerialPort comPort;
@@ -34,22 +34,24 @@ public class SerialLibrary {
         comPort = SerialPort.getCommPort(portName);
         comPort.setBaudRate(baudRate);
         comPort.openPort();
+        startListener();
     }
 
     public void closePort() {
         if(comPort != null && comPort.isOpen()) {
+            stopListener();
             comPort.removeDataListener();
             comPort.closePort();
         }
     }
 
-    public void startListener(TelegramListener listener) {
+    private void startListener() {
         if(comPort != null && comPort.isOpen()) {
             comPort.addDataListener(listener);
         }
     }
 
-    public void stopListener() {
+    private void stopListener() {
         if(comPort != null && comPort.isOpen()) {
             comPort.removeDataListener();
         }

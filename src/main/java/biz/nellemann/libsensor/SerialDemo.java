@@ -1,19 +1,14 @@
 package biz.nellemann.libsensor;
 
-import java.util.Observable;
-import java.util.Observer;
+public class SerialDemo implements SensorListener {
 
-public class SerialDemo implements Observer {
-
-    final SerialLibrary serialLibrary = new SerialLibrary();
-    final protected TelegramDeque<Integer> telegramDeque = new TelegramDeque<>(5000);
-    final protected TelegramListener16Bit listener = new TelegramListener16Bit();
+    final LibraryForSerial libraryForSerial = new LibraryForSerial();
 
 
     public static void main(final String args[]) {
 
         if(args.length < 1) {
-            SerialLibrary.printSerialPorts();
+            LibraryForSerial.printSerialPorts();
             return;
         }
 
@@ -25,10 +20,10 @@ public class SerialDemo implements Observer {
     // Initialize with serial port name as argument
     public SerialDemo(String portName) {
 
+
         // Setup serial port, start listener and add observer (this Observer class)
-        serialLibrary.openPort(portName, 38400);
-        serialLibrary.startListener(listener);
-        listener.addObserver(this);
+        libraryForSerial.openPort(portName, 38400);
+        libraryForSerial.addEventListener(this);
 
         // Keep running for some seconds and terminate
         try {
@@ -38,20 +33,15 @@ public class SerialDemo implements Observer {
         }
 
         // Stop listener and close port
-        serialLibrary.stopListener();
-        serialLibrary.closePort();
+        libraryForSerial.removeEventListener(this);
+        libraryForSerial.closePort();
 
     }
 
 
-    // This method is called when measurements arrive
-    public void update(Observable obj, Object arg ) {
-
-        // Put into stack for later use ?
-        telegramDeque.push((int)arg);
-
-        // Print to screen
-        System.out.println( arg );
+    @Override
+    public void onEvent(SensorEvent event) {
+        System.out.println("Measurement: " + event.getMeasurement());
     }
 
 }

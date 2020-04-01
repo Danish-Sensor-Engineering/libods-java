@@ -27,4 +27,11 @@ public class TelegramDeque<T> extends ArrayDeque<T> {
         return changed || trimmed;
     }
 
+    @Override
+    public void push(T o) {
+        super.push(o);
+        trim();
+    }
+
+
 }

@@ -6,14 +6,18 @@ import com.fazecast.jSerialComm.SerialPortMessageListener;
 
 import java.util.*;
 
-public abstract class TelegramListener extends Observable implements SerialPortMessageListener {
+
+public abstract class TelegramListener implements SerialPortMessageListener {
+
+    protected ArrayDeque rollingDeque = null;
+    protected List eventListeners = new ArrayList();
 
     protected TelegramListener() {
     }
 
-   /* TelegramListener(Deque deque) {
+    TelegramListener(Deque rollingDeque) {
         throw new UnsupportedOperationException("Use either the 16bit or 18bit implementation.");
-    }*/
+    }
 
     // Implemented as either 16bit or 18bit
     abstract protected int convert(byte data1, byte data2, byte data3);
@@ -32,9 +36,9 @@ public abstract class TelegramListener extends Observable implements SerialPortM
         int number = convert(data1, data2, data3);
         //log.info("Measurement: " + number + " from " + String.format("%02X ", header) + String.format("%02X ", data1) + String.format("%02X ", data2));
 
-        // TODO: Option to only get n results, mean result, etc.
-        notifyObservers(Integer.valueOf(number));
-        setChanged();
+        if(rollingDeque != null) rollingDeque.push(number);
+        sendEvent(number);
+
         return number;
     }
 
@@ -54,5 +58,14 @@ public abstract class TelegramListener extends Observable implements SerialPortM
             process(Arrays.copyOfRange(delimitedMessage, 3, 6));
         }
     }
+
+    private synchronized void sendEvent(int measurement) {
+        SensorEvent event = new SensorEvent( this, measurement );
+        Iterator listeners = eventListeners.iterator();
+        while( listeners.hasNext() ) {
+            ( (SensorListener) listeners.next() ).onEvent( event );
+        }
+    }
+
 
 }

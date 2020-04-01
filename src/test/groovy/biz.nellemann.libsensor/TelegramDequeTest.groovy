@@ -4,15 +4,15 @@ import spock.lang.Specification
 
 class TelegramDequeTest extends Specification {
 
-    def "make sure we do not grow above maxSize"() {
+    def "test our maxSize boundary"() {
         setup:
         def telegramDeque = new TelegramDeque<Integer>(3)
-        telegramDeque.add(1)
-        telegramDeque.add(2)
-        telegramDeque.add(3)
+        telegramDeque.push(1)
+        telegramDeque.push(2)
+        telegramDeque.push(3)
 
         when:
-        telegramDeque.add(4)
+        telegramDeque.push(4)
 
         then:
         telegramDeque.size() == 3
