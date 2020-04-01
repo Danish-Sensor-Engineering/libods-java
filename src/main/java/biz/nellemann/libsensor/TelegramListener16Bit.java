@@ -1,12 +1,14 @@
 package biz.nellemann.libsensor;
 
+import java.util.ArrayDeque;
+
 public class TelegramListener16Bit extends TelegramListener {
 
-    TelegramListener16Bit() {
+    private TelegramListener16Bit() {
     }
 
-    TelegramListener16Bit(final Configuration configuration) {
-        this.configuration = configuration;
+    TelegramListener16Bit(ArrayDeque deque) {
+        this.rollingDeque = deque;
     }
 
     protected int convert(final byte data1, final byte data2, final byte data3) {

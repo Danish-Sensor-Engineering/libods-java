@@ -31,12 +31,11 @@ class TelegramListenerTest extends Specification {
         result == 11079
     }
 
-    /*
     def "test event handler"() {
         setup:
         def serialPort = SerialPort.getCommPort("ttyS0")
         def deque = new TelegramDeque<Integer>(5)
-        def telegramListener16Bit = new TelegramListener16Bit()
+        def telegramListener16Bit = new TelegramListener16Bit(deque)
         byte[] message = [0x55, 0x27, 0x47, 0xAA, 0x27, 0x47]
 
         when:
@@ -47,7 +46,7 @@ class TelegramListenerTest extends Specification {
         then:
         deque.size() == 2
 
-    }*/
+    }
 }
 
 
