@@ -2,11 +2,11 @@ package biz.nellemann.libsensor;
 
 import java.util.EventObject;
 
-public class SensorEvent extends EventObject {
+public class TelegramEvent extends EventObject {
 
     private int measurement;
 
-    public SensorEvent(Object source, int measurement ) {
+    public TelegramEvent(Object source, int measurement ) {
         super( source );
         this.measurement = measurement;
     }

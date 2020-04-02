@@ -1,38 +1,25 @@
 package biz.nellemann.libsensor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Library {
 
-    // Max size of deque
-    final protected int rollingDequeMaxSize = 5000;
-    final protected int averageDequeMaxSize = 100;
+    protected Telegram telegram;
+    protected List<TelegramListener> eventListeners = new ArrayList<>();
 
-    // Storage for our measurements
-    final protected TelegramDeque<Integer> rollingDeque;
-    final protected TelegramDeque<Integer> averageDeque;
+    protected Library() { }
 
-    // We use the 16bit listener - forced for now - TODO: make selectable/configurable later
-    final protected TelegramListener16Bit listener;
-
-    public Library() {
-        rollingDeque = new TelegramDeque<>(rollingDequeMaxSize);
-        averageDeque = new TelegramDeque<>(averageDequeMaxSize);
-
-        listener = new TelegramListener16Bit(rollingDeque);
+    public Library(Telegram telegram) {
+        this.telegram = telegram;
     }
 
-    public int getLastMeasurement() {
-        return rollingDeque.pop();
+    public synchronized void addEventListener( TelegramListener l ) {
+        eventListeners.add( l );
     }
 
-    public int getLastAverageMeasurement() {
-        return averageDeque.pop();
-    }
-
-    public synchronized void addEventListener( SensorListener l ) {
-        listener.eventListeners.add( l );
-    }
-    public synchronized void removeEventListener( SensorListener l ) {
-        listener.eventListeners.remove( l );
+    public synchronized void removeEventListener( TelegramListener l ) {
+        eventListeners.remove( l );
     }
 
 }
