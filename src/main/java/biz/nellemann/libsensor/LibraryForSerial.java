@@ -14,11 +14,20 @@ public class LibraryForSerial extends Library {
     // Serialport
     protected SerialPort comPort;
 
+    // Configuration config;
+    Configuration config;
+
     private Thread readerThread;
     private SerialReader serialReader;
 
     public LibraryForSerial(Telegram telegram) {
         this.telegram = telegram;
+        this.config = new Configuration();
+    }
+
+    public LibraryForSerial(Telegram telegram, Configuration config) {
+        this.telegram = telegram;
+        this.config = config;
     }
 
     public static void printSerialPorts() {
@@ -54,7 +63,7 @@ public class LibraryForSerial extends Library {
 
     private void startReaderThread() {
         if(comPort != null && comPort.isOpen()) {
-            serialReader = new SerialReader(comPort, telegram, eventListeners);
+            serialReader = new SerialReader(comPort, telegram, eventListeners, config.doAverageOver);
             serialReader.start();
             readerThread = new Thread(serialReader);
             readerThread.start();

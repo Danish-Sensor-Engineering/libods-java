@@ -9,7 +9,7 @@ public abstract class Telegram {
     abstract protected boolean isHeader(byte b);
 
     // Get's a Stack<Byte> (byte[]) of at least 4 elements (0-3)
-    protected int process(Stack<Byte> readStack) {
+    protected synchronized int process(Stack<Byte> readStack) {
 
         if(readStack.size() < 4) {
             return -1;

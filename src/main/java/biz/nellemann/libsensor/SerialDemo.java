@@ -3,6 +3,7 @@ package biz.nellemann.libsensor;
 public class SerialDemo implements TelegramListener {
 
     final Telegram telegram;
+    final Configuration config;
     final LibraryForSerial libraryForSerial;
 
 
@@ -21,8 +22,11 @@ public class SerialDemo implements TelegramListener {
     // Initialize with serial port name as argument
     public SerialDemo(String portName) {
 
+        config = new Configuration();
+        config.doAverageOver = 25;
+
         telegram = new Telegram16Bit();
-        libraryForSerial = new LibraryForSerial(telegram);
+        libraryForSerial = new LibraryForSerial(telegram, config);
 
         // Setup serial port, start listener and add observer (this Observer class)
         libraryForSerial.openPort(portName, 38400);
@@ -30,7 +34,7 @@ public class SerialDemo implements TelegramListener {
 
         // Keep running for some seconds
         try {
-            Thread.sleep(5000L);
+            Thread.sleep(50000L);
         } catch (final InterruptedException e) {
             e.printStackTrace();
         }

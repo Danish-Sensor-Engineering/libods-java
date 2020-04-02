@@ -2,6 +2,7 @@ package biz.nellemann.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -9,30 +10,60 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SerialReader implements Runnable {
 
+    private final int avgOverNum;
+
     private final SerialPort comPort;
     private final Telegram telegram;
     private final List<?> eventListeners;
     private final Stack<Byte> readStack = new Stack<>();
     private AtomicBoolean running = new AtomicBoolean(false);
 
-    SerialReader(SerialPort comPort, Telegram telegram, List<?> eventListeners) {
+    SerialReader(SerialPort comPort, Telegram telegram, List<?> eventListeners, int avgOver) {
         this.comPort = comPort;
         this.telegram = telegram;
         this.eventListeners = eventListeners;
+        this.avgOverNum = avgOver;
     }
 
 
     @Override
     public void run() {
+
+        int avgIntCounter = 0;
+        int[] avgIntArray = new int[avgOverNum];
+
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
         try {
             while (running.get()) {
                 byte[] readBuffer = new byte[1];
                 comPort.readBytes(readBuffer, readBuffer.length);
-                readStack.push(Byte.valueOf(readBuffer[0]));
-                if(readStack.size() > 3 && telegram.isHeader(readStack.elementAt(0))) {
-                    sendEvent(telegram.process(readStack));
+                readStack.push(readBuffer[0]);
+
+                if(readStack.size() < 3 && !telegram.isHeader(readStack.elementAt(0))) {
+                    //System.out.println("Wrong size or not header?" + readStack.elementAt(0));
+                    readStack.pop();
+                    continue;
                 }
+
+                if(readStack.size() > 3) {
+                    int measurement = telegram.process(readStack);
+                    if(avgOverNum > 0) {
+                        //System.out.println("Adding to avgbuffer");
+                        avgIntArray[avgIntCounter] = measurement;
+                        avgIntCounter++;
+                    } else {
+                        sendEvent(measurement);
+                    }
+                }
+
+                // Simple average
+                if(avgOverNum > 0 && avgIntCounter >= avgIntArray.length) {
+                    avgIntCounter = 0;
+                    Double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
+                    //System.out.println("Avg: " + avg.toString());
+                    sendEvent(avg.intValue());
+                }
+
             }
         } catch (Exception e) { e.printStackTrace(); }
     }
