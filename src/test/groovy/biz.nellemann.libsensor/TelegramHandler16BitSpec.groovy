@@ -2,9 +2,9 @@ package biz.nellemann.libsensor;
 
 import spock.lang.Specification;
 
-class Telegram16BitSpec extends Specification {
+class TelegramHandler16BitSpec extends Specification {
 
-    def telegram16Bit = new Telegram16Bit()
+    def telegram16Bit = new TelegramHandler16Bit()
 
     def "test 16bit telegram to int conversion"() {
         when:

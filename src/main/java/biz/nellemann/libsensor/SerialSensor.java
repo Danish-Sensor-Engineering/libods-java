@@ -9,26 +9,22 @@ import java.util.List;
  * This is mostly a wrapper for the jSerialComm library
  * https://fazecast.github.io/jSerialComm/
  */
-public class LibraryForSerial extends Library {
+public class SerialSensor extends Sensor {
 
-    // Serialport
-    protected SerialPort comPort;
 
-    // Configuration config;
-    Configuration config;
+    /**
+     * Serial Port Setup
+     */
+
+    protected SerialPort serialPort;
+
+    public SerialPort getSerialPort() {
+        return serialPort;
+    }
+
 
     private Thread readerThread;
     private SerialReader serialReader;
-
-    public LibraryForSerial(Telegram telegram) {
-        this.telegram = telegram;
-        this.config = new Configuration();
-    }
-
-    public LibraryForSerial(Telegram telegram, Configuration config) {
-        this.telegram = telegram;
-        this.config = config;
-    }
 
     public static void printSerialPorts() {
         final SerialPort serialPorts[] = SerialPort.getCommPorts();
@@ -47,23 +43,23 @@ public class LibraryForSerial extends Library {
     }
 
     public void openPort(final String portName, final int baudRate) {
-        comPort = SerialPort.getCommPort(portName);
-        comPort.setBaudRate(baudRate);
-        comPort.openPort();
+        serialPort = SerialPort.getCommPort(portName);
+        serialPort.setBaudRate(baudRate);
+        serialPort.openPort();
         startReaderThread();
     }
 
     public void closePort() {
-        if(comPort != null && comPort.isOpen()) {
+        if(serialPort != null && serialPort.isOpen()) {
             stopReaderThread();
-            comPort.removeDataListener();
-            comPort.closePort();
+            serialPort.removeDataListener();
+            serialPort.closePort();
         }
     }
 
     private void startReaderThread() {
-        if(comPort != null && comPort.isOpen()) {
-            serialReader = new SerialReader(comPort, telegram, eventListeners, config.doAverageOver);
+        if(serialPort != null && serialPort.isOpen()) {
+            serialReader = new SerialReader(this);
             serialReader.start();
             readerThread = new Thread(serialReader);
             readerThread.start();
@@ -72,7 +68,7 @@ public class LibraryForSerial extends Library {
     }
 
     private void stopReaderThread() {
-        if(comPort != null && comPort.isOpen()) {
+        if(serialPort != null && serialPort.isOpen()) {
             serialReader.stop();
             try {
                 readerThread.join();

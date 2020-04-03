@@ -2,7 +2,7 @@ package biz.nellemann.libsensor;
 
 import java.util.Stack;
 
-public abstract class Telegram {
+public abstract class TelegramHandler {
 
     // Implemented as either 16bit or 18bit in inherited class
     abstract protected int convert(byte data1, byte data2, byte data3);

@@ -2,15 +2,12 @@ package biz.nellemann.libsensor;
 
 public class SerialDemo implements TelegramListener {
 
-    final Telegram telegram;
-    final Configuration config;
-    final LibraryForSerial libraryForSerial;
-
+    final SerialSensor serialSensor;
 
     public static void main(final String args[]) {
 
         if(args.length < 1) {
-            LibraryForSerial.printSerialPorts();
+            SerialSensor.printSerialPorts();
             return;
         }
 
@@ -22,15 +19,13 @@ public class SerialDemo implements TelegramListener {
     // Initialize with serial port name as argument
     public SerialDemo(String portName) {
 
-        config = new Configuration();
-        config.doAverageOver = 25;
-
-        telegram = new Telegram16Bit();
-        libraryForSerial = new LibraryForSerial(telegram, config);
+        serialSensor = new SerialSensor();
+        serialSensor.setTelegramHandler(new TelegramHandler16Bit());
+        serialSensor.addEventListener(this);
+        serialSensor.doAverageOver = 25;
 
         // Setup serial port, start listener and add observer (this Observer class)
-        libraryForSerial.openPort(portName, 38400);
-        libraryForSerial.addEventListener(this);
+        serialSensor.openPort(portName, 38400);
 
         // Keep running for some seconds
         try {
@@ -40,8 +35,8 @@ public class SerialDemo implements TelegramListener {
         }
 
         // Stop listener and close port
-        libraryForSerial.removeEventListener(this);
-        libraryForSerial.closePort();
+        serialSensor.removeEventListener(this);
+        serialSensor.closePort();
 
     }
 
