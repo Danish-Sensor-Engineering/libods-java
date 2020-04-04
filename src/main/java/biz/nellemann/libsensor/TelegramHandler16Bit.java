@@ -12,4 +12,8 @@ public class TelegramHandler16Bit extends TelegramHandler {
 
         return false;
     }
+
+    public String toString() {
+        return "16bit";
+    }
 }
