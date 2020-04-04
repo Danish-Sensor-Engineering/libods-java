@@ -21,29 +21,33 @@ On Windows execute ```gradlew.bat``` in a terminal, or use an IDE that support G
 
 ## Library Usage
 
-Create a SerialSensor object, specify TelegramHandler and open the correct serial port.
+Create a SerialSensor object, specify TelegramHandler and open the correct serial port:
 
+```java
     SerialSensor serialSensor = new SerialSensor();
     serialSensor.setTelegramHandler(new TelegramHandler16Bit());
     serialSensor.openPort("ttyUSB0", 38400);
     // Setup event listener ...
     serialSensor.closePort();
+```
 
-Measurements are obtained by implementing our **TelegramListener** interface by providing a **onEvent(TelegramEvent event)** method, which will be callled on each measurement received.
+Measurements are obtained by implementing our **TelegramListener** interface by providing a **onEvent(TelegramEvent event)** method, which will be callled on each measurement received:
 
+```java
     public class MyTest implements TelegramListener {
         @Override
         public void onEvent(TelegramEvent event) {
             System.out.println("Measurement: " + event.getMeasurement());
         }
     }
-
-
+```
 
 #### Gradle
 
-To use the library in a Gradle build, add our bintray repository and add the dependency.
+To use the library in a Gradle build, add our bintray repository and add the dependency:
 
+
+```groovy
     repositories {
         maven { url 'https://dl.bintray.com/mnellemann/libs' }
     }
@@ -51,6 +55,7 @@ To use the library in a Gradle build, add our bintray repository and add the dep
     dependencies {
         compile 'biz.nellemann.libs:libsensor:1+'
     }
+```
 
 
 #### Maven
