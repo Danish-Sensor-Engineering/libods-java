@@ -7,7 +7,10 @@ public class TelegramHandler18Bit extends TelegramHandler {
     }
 
     protected boolean isHeader(byte b) {
-        if(b == (byte)0xAA || b == (byte)0x55)
+        if(b == (byte)0x84 || b == (byte)0x85 || b == (byte)0x86 || b == (byte)0x87)
+            return true;
+
+        if(b == (byte)0x168 || b == (byte)0x169 || b == (byte)0x170 || b == (byte)0x171)
             return true;
 
         return false;

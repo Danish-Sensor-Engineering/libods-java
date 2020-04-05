@@ -1,8 +1,5 @@
 package biz.nellemann.libsensor;
 
-import com.fazecast.jSerialComm.SerialPort;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
