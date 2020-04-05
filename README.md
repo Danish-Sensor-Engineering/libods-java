@@ -44,7 +44,7 @@ Measurements are obtained by implementing our **TelegramListener** interface by 
 
 #### Gradle
 
-To use the library in a Gradle build, add our bintray repository and add the dependency:
+To use the library in a Gradle build, add our bintray repository and add the required compile dependencies:
 
 
 ```groovy
@@ -53,7 +53,8 @@ To use the library in a Gradle build, add our bintray repository and add the dep
     }
 
     dependencies {
-        compile 'biz.nellemann.libs:libsensor:1+'
+        compile 'biz.nellemann.libs:libsensor:1.0.1'      // Include the DSE library
+        compile('com.fazecast:jSerialComm:[2.0.0,3.0.0)') // Include the jSerialComm library
     }
 ```
 
