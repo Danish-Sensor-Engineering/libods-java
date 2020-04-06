@@ -5,11 +5,11 @@ import java.util.Stack;
 public abstract class TelegramHandler {
 
     // Implemented as either 16bit or 18bit in inherited class
-    abstract protected int convert(byte data1, byte data2, byte data3);
-    abstract protected boolean isHeader(byte b);
+    abstract protected int convert(int data1, int data2, int data3);
+    abstract protected boolean isHeader(int h);
 
     // Get's a Stack<Byte> (byte[]) of at least 4 elements (0-3)
-    protected synchronized int process(Stack<Byte> readStack) {
+    protected synchronized int process(Stack<Integer> readStack) {
 
         if(readStack.size() < 4) {
             return -1;
