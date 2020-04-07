@@ -53,7 +53,7 @@ To use the library in a Gradle build, add our bintray repository and add the req
     }
 
     dependencies {
-        compile 'biz.nellemann.libs:libsensor:1.0.1'      // Include the DSE library
+        compile 'biz.nellemann.libs:libsensor:1.0.2'      // Include the DSE library
         compile('com.fazecast:jSerialComm:[2.0.0,3.0.0)') // Include the jSerialComm library
     }
 ```
