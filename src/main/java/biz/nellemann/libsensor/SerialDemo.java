@@ -22,14 +22,14 @@ public class SerialDemo implements TelegramListener {
         serialSensor = new SerialSensor();
         serialSensor.setTelegramHandler(new TelegramHandler16Bit());
         serialSensor.addEventListener(this);
-        serialSensor.doAverageOver = 25;
+        serialSensor.doAverageOver = 10;
 
         // Setup serial port, start listener and add observer (this Observer class)
         serialSensor.openPort(portName, 38400);
 
         // Keep running for some seconds
         try {
-            Thread.sleep(50000L);
+            Thread.sleep(5000L);
         } catch (final InterruptedException e) {
             e.printStackTrace();
         }

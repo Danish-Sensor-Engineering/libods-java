@@ -1,18 +1,22 @@
 package biz.nellemann.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Stack;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SerialReader implements Runnable {
 
+    private final static Logger log = LoggerFactory.getLogger(SerialReader.class);
+
     private final Sensor sensor;
     private final SerialPort comPort;
 
-    private final Stack<Integer> readStack = new Stack<>();
+    private final ArrayDeque<Integer> readBuffer = new ArrayDeque<>();
     private AtomicBoolean running = new AtomicBoolean(false);
 
     SerialReader(SerialSensor sensor) {
@@ -30,18 +34,19 @@ public class SerialReader implements Runnable {
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
         try {
             while (running.get()) {
-                byte[] readBuffer = new byte[1];
-                comPort.readBytes(readBuffer, readBuffer.length);
-                readStack.push((int)readBuffer[0]);
+                byte[] tmpBuffer = new byte[1];
+                comPort.readBytes(tmpBuffer, tmpBuffer.length);
+                //log.info(String.format("0x%02x", tmpBuffer[0]));
+                readBuffer.add((int) tmpBuffer[0]);
 
-                if(readStack.size() < 3 && !sensor.telegramHandler.isHeader(readStack.elementAt(0))) {
-                    //System.out.println("Wrong size or not header?" + readStack.elementAt(0));
-                    readStack.pop();
+                if(!sensor.telegramHandler.isHeader(readBuffer.peek())) {
+                    readBuffer.remove();
                     continue;
                 }
 
-                if(readStack.size() > 3) {
-                    int measurement = sensor.telegramHandler.process(readStack);
+                while(readBuffer.size() > 3) {
+
+                    int measurement = sensor.telegramHandler.process(readBuffer);
                     if(sensor.doAverageOver > 0) {
                         //System.out.println("Adding to avgbuffer");
                         avgIntArray[avgIntCounter] = measurement;
@@ -49,15 +54,16 @@ public class SerialReader implements Runnable {
                     } else {
                         sendEvent(measurement);
                     }
+
+                    if(sensor.doAverageOver > 0 && avgIntCounter >= avgIntArray.length) {
+                        avgIntCounter = 0;
+                        Double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
+                        //System.out.println("Avg: " + avg.toString());
+                        sendEvent(avg.intValue());
+                    }
+
                 }
 
-                // Simple average
-                if(sensor.doAverageOver > 0 && avgIntCounter >= avgIntArray.length) {
-                    avgIntCounter = 0;
-                    Double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
-                    //System.out.println("Avg: " + avg.toString());
-                    sendEvent(avg.intValue());
-                }
 
             }
         } catch (Exception e) { e.printStackTrace(); }

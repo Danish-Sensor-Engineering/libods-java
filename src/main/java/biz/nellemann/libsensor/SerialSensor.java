@@ -63,7 +63,6 @@ public class SerialSensor extends Sensor {
             serialReader.start();
             readerThread = new Thread(serialReader);
             readerThread.start();
-            //comPort.addDataListener(listener);
         }
     }
 
@@ -75,7 +74,6 @@ public class SerialSensor extends Sensor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //comPort.removeDataListener();
         }
     }
 

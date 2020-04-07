@@ -9,7 +9,7 @@ class TelegramHandlerSpec extends Specification {
     def "test processing of correct byte stack"() {
 
         setup:
-        Stack<Integer> telegram = new Stack<>();
+        ArrayDeque<Integer> telegram = new ArrayDeque<>();
         telegram.add(85)
         telegram.add(139)
         telegram.add(78)
@@ -26,7 +26,7 @@ class TelegramHandlerSpec extends Specification {
     def "test processing of small byte stack"() {
 
         setup:
-        Stack<Byte> telegram = new Stack<>();
+        ArrayDeque<Integer> telegram = new ArrayDeque<>();
         telegram.add(85)
         telegram.add(139)
         telegram.add(78)
