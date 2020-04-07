@@ -7,29 +7,35 @@ class TelegramHandler18BitSpec extends Specification {
     def telegram18Bit = new TelegramHandler18Bit()
 
     def "test 18bit telegram to int conversion"() {
-        when:
-        def result = telegram18Bit.convert((byte)0x55, (byte)0x27, (byte)0x47)
+        expect: 'Should return correct distance based on telegram'
+        telegram18Bit.convert(a, b, c) == d
 
-        then:
-        result == 11079
+        where:
+        a   | b   | c   || d
+        169 | 192 | 121 || 124673
+         87 | 122 | 121 || 124395
+        168 | 150 | 120 || 123480
+         85 |   0 | 120 || 122881
+        171 |  21 | 123 || 126039
     }
 
     def "test header detection"() {
         expect: 'Should return true on valid header'
-        telegram18Bit.isHeader((byte)a) == b
+        telegram18Bit.isHeader(a) == b
 
         where:
         a    || b
-        0x55 || false
-        0x84 || true
-        0x85 || true
-        0x86 || true
-        0x87 || true
-        0xAA || false
-        0x168 || true
-        0x169 || true
-        0x170 || true
-        0x171 || true
+        168 || true
+        169 || true
+        170 || true
+        171 || true
+         84 || true
+         85 || true
+         86 || true
+         87 || true
+        101 || false
+        127 || false
+         82 || false
     }
 
 }

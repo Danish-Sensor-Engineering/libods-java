@@ -12,7 +12,7 @@ public class SerialReader implements Runnable {
     private final Sensor sensor;
     private final SerialPort comPort;
 
-    private final Stack<Byte> readStack = new Stack<>();
+    private final Stack<Integer> readStack = new Stack<>();
     private AtomicBoolean running = new AtomicBoolean(false);
 
     SerialReader(SerialSensor sensor) {
@@ -32,7 +32,7 @@ public class SerialReader implements Runnable {
             while (running.get()) {
                 byte[] readBuffer = new byte[1];
                 comPort.readBytes(readBuffer, readBuffer.length);
-                readStack.push(readBuffer[0]);
+                readStack.push((int)readBuffer[0]);
 
                 if(readStack.size() < 3 && !sensor.telegramHandler.isHeader(readStack.elementAt(0))) {
                     //System.out.println("Wrong size or not header?" + readStack.elementAt(0));

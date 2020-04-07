@@ -9,11 +9,11 @@ class TelegramHandlerSpec extends Specification {
     def "test processing of correct byte stack"() {
 
         setup:
-        Stack<Byte> telegram = new Stack<>();
-        telegram.add((byte)0x55)
-        telegram.add((byte)0x27)
-        telegram.add((byte)0x47)
-        telegram.add((byte)0xAA)
+        Stack<Integer> telegram = new Stack<>();
+        telegram.add(85)
+        telegram.add(139)
+        telegram.add(78)
+        telegram.add(170)
 
         when:
         def number = telegram16Bit.process(telegram)
@@ -27,9 +27,9 @@ class TelegramHandlerSpec extends Specification {
 
         setup:
         Stack<Byte> telegram = new Stack<>();
-        telegram.add((byte)0x55)
-        telegram.add((byte)0x27)
-        telegram.add((byte)0x47)
+        telegram.add(85)
+        telegram.add(139)
+        telegram.add(78)
 
         when:
         def number = telegram16Bit.process(telegram)
