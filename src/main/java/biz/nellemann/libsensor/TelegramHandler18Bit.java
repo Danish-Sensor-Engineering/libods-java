@@ -2,8 +2,8 @@ package biz.nellemann.libsensor;
 
 public class TelegramHandler18Bit extends TelegramHandler {
 
-    protected int convert(final int data1, final int data2, final int data3) {
-        return (1024 * data3) + (4 * data2) + (data1 & 3);
+    protected int convert(final int d1, final int d2, final int d3) {
+        return (1024 * d3) + (4 * d2) + (d1 & 3);
     }
 
     protected boolean isHeader(int h) {

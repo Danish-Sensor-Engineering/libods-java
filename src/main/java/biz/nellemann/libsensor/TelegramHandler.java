@@ -10,7 +10,7 @@ public abstract class TelegramHandler {
     private final static Logger log = LoggerFactory.getLogger(TelegramHandler.class);
 
     // Implemented as either 16bit or 18bit in inherited class
-    abstract protected int convert(int data1, int data2, int data3);
+    abstract protected int convert(int d1, int d2, int d3);
     abstract protected boolean isHeader(int h);
 
     // Get's a Stack<Byte> (byte[]) of at least 4 elements (0-3)

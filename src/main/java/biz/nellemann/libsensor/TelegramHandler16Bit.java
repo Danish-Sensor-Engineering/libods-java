@@ -2,12 +2,12 @@ package biz.nellemann.libsensor;
 
 public class TelegramHandler16Bit extends TelegramHandler {
 
-    protected int convert(final int data1, final int data2, final int data3) {
-        return 256 * data3 + data2;
+    protected int convert(final int d1, final int d2, final int d3) {
+        return 256 * d3 + d2;
     }
 
     protected boolean isHeader(int h) {
-        if(h == 170 || h == 85)
+        if(h == 85 || h == 170)
             return true;
 
         return false;
