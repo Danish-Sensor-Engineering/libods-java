@@ -46,4 +46,9 @@ public class SerialDemo implements TelegramListener {
         System.out.println("Measurement: " + event.getMeasurement());
     }
 
+    @Override
+    public void onError(TelegramErrorEvent event) {
+        System.err.println("Error: " + event.toString());
+    }
+
 }

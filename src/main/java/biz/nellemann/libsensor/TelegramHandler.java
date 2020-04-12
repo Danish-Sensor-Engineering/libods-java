@@ -27,10 +27,8 @@ public abstract class TelegramHandler {
 
         // Call 16/18 bit specific conversion method
         int distance = convert(b1, b2, b3);
-        if(distance > 0) {
-            return distance;
-        }
-        return 0;
+
+        return distance;
     }
 
 }
