@@ -1,13 +1,14 @@
 image: openjdk:8
 
 pipelines:
-  default:
-    - step:
-        caches:
-          - gradle
-        name: Build and Test
-        script:
-          - ./gradlew clean build
+  branches:
+    master:
+      - step:
+          caches:
+            - gradle
+          name: Build and Test
+          script:
+            - ./gradlew clean build
   tags:                         # add the 'tags' section
     v*:                         # specify the tag
       - step:                   # define the build pipeline for the tag

@@ -1,23 +1,13 @@
-DSE ODS Sensor Library
-----------------------
+DSE ODS Java Library
+---------------------
 
-Work in progress.
-
+Java library for communicating with, and decoding measurement telegrams from Optical Displacement Sensors (ODS) made by [Danish Sensor Engineering](https://www.danish-sensor-engineering.com) (DSE).
 
 ## Requirements
 
 Java 8 - [OpenJDK](https://adoptopenjdk.net/), Oracle JDK, or any other Java JDK-8, is required to build and run.
 
-We use the cross-platform [jSerialComm](https://fazecast.github.io/jSerialComm/) library for serial port communication.
-
-## Development
-
-To build and test the library, checkout the code from this repository and use the Gradle build tool as shown:
-
-    ./gradlew clean build
-
-On Windows execute ```gradlew.bat``` in a terminal, or use an IDE that support Gradle projects.
-
+We use the cross-platform [jSerialComm](https://fazecast.github.io/jSerialComm/) library for serial port communication, which must also be included when using this library.
 
 ## Library Usage
 
@@ -31,13 +21,13 @@ Create a SerialSensor object, specify TelegramHandler and open the correct seria
     serialSensor.closePort();
 ```
 
-Measurements are obtained by implementing our **TelegramListener** interface by providing a **onEvent(TelegramEvent event)** method, which will be callled on each measurement received:
+You obtain measurement results by implementing the **TelegramListener** interface, providing a **onTelegramResultEvent(TelegramResultEvent event)** method, which will be called on each measurement received:
 
 ```java
     public class MyTest implements TelegramListener {
         @Override
-        public void onEvent(TelegramEvent event) {
-            System.out.println("Measurement: " + event.getMeasurement());
+        public void onTelegramResultEvent(TelegramResultEvent event) {
+            System.out.println("Result: " + event.getMeasurement());
         }
     }
 ```
@@ -67,3 +57,12 @@ TODO.
 ### Examples
 
 See [our full example](https://bitbucket.org/nellemann_biz/libsensor/src/master/src/main/java/biz/nellemann/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
+
+
+## Development
+
+To build and test the library, checkout the code from this repository and use the Gradle build tool as shown:
+
+    ./gradlew clean build
+
+On Windows execute ```gradlew.bat``` in a terminal, or use an IDE that support Gradle projects.
