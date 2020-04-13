@@ -29,7 +29,7 @@ public class SerialDemo implements TelegramListener {
 
         // Keep running for some seconds
         try {
-            Thread.sleep(2000L);
+            Thread.sleep(5000L);
         } catch (final InterruptedException e) {
             e.printStackTrace();
         }
@@ -42,12 +42,12 @@ public class SerialDemo implements TelegramListener {
 
 
     @Override
-    public void onEvent(TelegramEvent event) {
-        System.out.println("Measurement: " + event.getMeasurement());
+    public void onTelegramResultEvent(TelegramResultEvent event) {
+        System.out.println("Result: " + event.getMeasurement());
     }
 
     @Override
-    public void onError(TelegramErrorEvent event) {
+    public void onTelegramErrorEvent(TelegramErrorEvent event) {
         System.err.println("Error: " + event.toString());
     }
 

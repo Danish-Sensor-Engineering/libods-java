@@ -94,10 +94,10 @@ public class Sensor {
 
 
     private synchronized void sendEvent(int measurement) {
-        TelegramEvent event = new TelegramEvent( this, measurement );
+        TelegramResultEvent event = new TelegramResultEvent( this, measurement );
         Iterator listeners = eventListeners.iterator();
         while( listeners.hasNext() ) {
-            ( (TelegramListener) listeners.next() ).onEvent( event );
+            ( (TelegramListener) listeners.next() ).onTelegramResultEvent( event );
         }
     }
 
@@ -132,7 +132,7 @@ public class Sensor {
         TelegramErrorEvent event = new TelegramErrorEvent( this, error );
         Iterator listeners = eventListeners.iterator();
         while( listeners.hasNext() ) {
-            ( (TelegramListener) listeners.next() ).onError( event );
+            ( (TelegramListener) listeners.next() ).onTelegramErrorEvent( event );
         }
     }
 
