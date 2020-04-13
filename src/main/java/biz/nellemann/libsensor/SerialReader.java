@@ -1,14 +1,26 @@
+/*
+ * Copyright 2020 Danish Sensor Engineering ApS
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package biz.nellemann.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Array;
 import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SerialReader implements Runnable {
@@ -30,12 +42,11 @@ public class SerialReader implements Runnable {
     @Override
     public void run() {
 
-        int avgIntCounter = 0;
-        int[] avgIntArray = new int[sensor.doAverageOver];
-
+        sensor.clear();
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
         try {
 
+            // TODO: Make configurable ?
             byte[] tmpBuffer = new byte[1];
             //int bytesRead = 0;
 
@@ -45,14 +56,13 @@ public class SerialReader implements Runnable {
                 comPort.readBytes(tmpBuffer, tmpBuffer.length);
                 readBuffer.add((int) tmpBuffer[0] & 0xFF); // NOTE: To get unsigned int !!!
 
-/*              // If we read more than 1byte each time
+                /* // If we read more than 1byte each time
                 if(bytesRead > 4) {
                     for(int i = 0; i < bytesRead; i++) {
                         readBuffer.add((int) tmpBuffer[i] & 0xFF); // NOTE: To get unsigned int !!!
                         //log.info("Read: " + String.format("0x%02X / %02d", tmpBuffer[i], tmpBuffer[i]));
                     }
-                }
-*/
+                }*/
 
                 // Remove non-header bytes from start of queue
                 if(!sensor.telegramHandler.isHeader(readBuffer.peek())) {
@@ -64,37 +74,15 @@ public class SerialReader implements Runnable {
                 while(readBuffer.size() > 3) {
 
                     int measurement = sensor.telegramHandler.process(readBuffer);
-                    if(sensor.doAverageOver > 0) {
-                        //log.info("Adding to avg. buffer: " + measurement);
-                        avgIntArray[avgIntCounter] = measurement;
-                        avgIntCounter++;
-                    } else {
-                        //log.info("Send event: " + measurement);
-                        sendEvent(measurement);
-                    }
-
-                    if(sensor.doAverageOver > 0 && avgIntCounter >= avgIntArray.length) {
-                        avgIntCounter = 0;
-                        Double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
-                        //log.info("Send event: " + avg.intValue());
-                        sendEvent(avg.intValue());
-                    }
-
+                    sensor.onMeasurement(measurement);
                     //log.info("Read buffer size: " + readBuffer.size());
                 }
 
-
             }
+
         } catch (Exception e) { e.printStackTrace(); }
     }
 
-    private synchronized void sendEvent(int measurement) {
-        TelegramEvent event = new TelegramEvent( this, measurement );
-        Iterator listeners = sensor.eventListeners.iterator();
-        while( listeners.hasNext() ) {
-            ( (TelegramListener) listeners.next() ).onEvent( event );
-        }
-    }
 
     public void start() {
         running.set(true);

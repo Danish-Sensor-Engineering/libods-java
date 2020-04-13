@@ -16,20 +16,25 @@
 
 package biz.nellemann.libsensor;
 
-public class TelegramHandler16Bit extends TelegramHandler {
+import java.util.EventObject;
 
-    protected int convert(final int d1, final int d2, final int d3) {
-        return 256 * d3 + d2;
+public class TelegramErrorEvent extends EventObject {
+
+    private TelegramError error;
+
+    public TelegramErrorEvent(Object source, TelegramError error ) {
+        super( source );
+        this.error = error;
     }
 
-    protected boolean isHeader(int h) {
-        if(h == 85 || h == 170)
-            return true;
-
-        return false;
+    public int getId() {
+        return error.getId();
+    }
+    public String getMessage() {
+        return error.getMessage();
     }
 
     public String toString() {
-        return "16bit";
+        return(error.getId() + " - " + error.getMessage());
     }
 }

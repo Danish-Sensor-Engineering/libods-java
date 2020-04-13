@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package biz.nellemann.libsensor
 
-public class TelegramHandler16Bit extends TelegramHandler {
+import spock.lang.Specification
 
-    protected int convert(final int d1, final int d2, final int d3) {
-        return 256 * d3 + d2;
-    }
+class SensorSpec extends Specification {
 
-    protected boolean isHeader(int h) {
-        if(h == 85 || h == 170)
-            return true;
+    def sensor = new Sensor()
 
-        return false;
-    }
+    // Test avg. function
 
-    public String toString() {
-        return "16bit";
-    }
+    // Test error codes
+
+
 }
