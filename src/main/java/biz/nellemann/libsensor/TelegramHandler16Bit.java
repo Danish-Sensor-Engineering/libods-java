@@ -23,10 +23,7 @@ public class TelegramHandler16Bit extends TelegramHandler {
     }
 
     protected boolean isHeader(int h) {
-        if(h == 85 || h == 170)
-            return true;
-
-        return false;
+        return h == 85 || h == 170;
     }
 
     public String toString() {

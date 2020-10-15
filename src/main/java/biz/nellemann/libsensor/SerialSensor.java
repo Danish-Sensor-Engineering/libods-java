@@ -43,14 +43,14 @@ public class SerialSensor extends Sensor {
     private SerialReader serialReader;
 
     public static void printSerialPorts() {
-        final SerialPort serialPorts[] = SerialPort.getCommPorts();
+        final SerialPort[] serialPorts = SerialPort.getCommPorts();
         for (final SerialPort port : serialPorts) {
             System.out.println("Serial port: " + port.getSystemPortName() + " (" + port.getDescriptivePortName() +")");
         }
     }
 
     public static List<String> getSerialPorts() {
-        final SerialPort serialPorts[] = SerialPort.getCommPorts();
+        final SerialPort[] serialPorts = SerialPort.getCommPorts();
         List<String> serialPortNames = new ArrayList<>(serialPorts.length);
         for (final SerialPort port : serialPorts) {
             serialPortNames.add(port.getSystemPortName());

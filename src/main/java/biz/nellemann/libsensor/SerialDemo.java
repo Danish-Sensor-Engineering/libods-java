@@ -19,7 +19,7 @@ public class SerialDemo implements TelegramListener {
 
     final SerialSensor serialSensor;
 
-    public static void main(final String args[]) {
+    public static void main(final String[] args) {
 
         if(args.length < 1) {
             SerialSensor.printSerialPorts();

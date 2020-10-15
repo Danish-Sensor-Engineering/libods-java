@@ -13,7 +13,7 @@ We use the cross-platform [jSerialComm](https://fazecast.github.io/jSerialComm/)
 
 Create a SerialSensor object, specify TelegramHandler and open the correct serial port:
 
-```java
+``` java
     SerialSensor serialSensor = new SerialSensor();
     serialSensor.setTelegramHandler(new TelegramHandler16Bit());
     serialSensor.openPort("ttyUSB0", 38400);
@@ -23,7 +23,7 @@ Create a SerialSensor object, specify TelegramHandler and open the correct seria
 
 You obtain measurement results by implementing the **TelegramListener** interface, providing a **onTelegramResultEvent(TelegramResultEvent event)** method, which will be called on each measurement received:
 
-```java
+``` java
     public class MyTest implements TelegramListener {
         @Override
         public void onTelegramResultEvent(TelegramResultEvent event) {
@@ -37,7 +37,7 @@ You obtain measurement results by implementing the **TelegramListener** interfac
 To use the library in a Gradle build, add our bintray repository and add the required compile dependencies:
 
 
-```groovy
+``` groovy
     repositories {
         maven { url 'https://dl.bintray.com/mnellemann/libs' }
     }

@@ -20,7 +20,7 @@ import java.util.EventObject;
 
 public class TelegramErrorEvent extends EventObject {
 
-    private TelegramError error;
+    private final TelegramError error;
 
     public TelegramErrorEvent(Object source, TelegramError error ) {
         super( source );
