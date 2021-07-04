@@ -18,7 +18,6 @@ package biz.nellemann.libsensor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class Sensor {
@@ -59,7 +58,7 @@ public class Sensor {
      * Event Listener Configuration
      */
 
-    protected List<TelegramListener> eventListeners = new ArrayList<>();
+    protected final List<TelegramListener> eventListeners = new ArrayList<>();
 
     public synchronized void addEventListener( TelegramListener l ) {
         eventListeners.add( l );
@@ -101,9 +100,9 @@ public class Sensor {
 
         if(doAverageOver > 0 && avgIntCounter >= avgIntArray.length) {
             avgIntCounter = 0;
-            Double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
+            double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
             //log.info("Send event: " + avg.intValue());
-            sendEvent(avg.intValue());
+            sendEvent((int) avg);
         }
 
     }
@@ -111,9 +110,8 @@ public class Sensor {
 
     private synchronized void sendEvent(int measurement) {
         TelegramResultEvent event = new TelegramResultEvent( this, measurement );
-        Iterator listeners = eventListeners.iterator();
-        while( listeners.hasNext() ) {
-            ( (TelegramListener) listeners.next() ).onTelegramResultEvent( event );
+        for (TelegramListener eventListener : eventListeners) {
+            eventListener.onTelegramResultEvent(event);
         }
     }
 
@@ -146,9 +144,8 @@ public class Sensor {
         }
 
         TelegramErrorEvent event = new TelegramErrorEvent( this, error );
-        Iterator listeners = eventListeners.iterator();
-        while( listeners.hasNext() ) {
-            ( (TelegramListener) listeners.next() ).onTelegramErrorEvent( event );
+        for (TelegramListener eventListener : eventListeners) {
+            eventListener.onTelegramErrorEvent(event);
         }
     }
 

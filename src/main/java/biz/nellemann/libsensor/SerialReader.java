@@ -31,7 +31,7 @@ public class SerialReader implements Runnable {
     private final SerialPort comPort;
 
     private final ArrayDeque<Integer> readBuffer = new ArrayDeque<>();
-    private AtomicBoolean running = new AtomicBoolean(false);
+    private final AtomicBoolean running = new AtomicBoolean(false);
 
     SerialReader(SerialSensor sensor) {
         this.sensor = sensor;
@@ -65,7 +65,7 @@ public class SerialReader implements Runnable {
                 }*/
 
                 // Remove non-header bytes from start of queue
-                if(!sensor.telegramHandler.isHeader(readBuffer.peek())) {
+                if(!readBuffer.isEmpty() && !sensor.telegramHandler.isHeader(readBuffer.peek())) {
                     readBuffer.remove();
                     continue;
                 }

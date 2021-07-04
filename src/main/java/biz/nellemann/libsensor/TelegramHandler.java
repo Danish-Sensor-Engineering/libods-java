@@ -42,9 +42,7 @@ public abstract class TelegramHandler {
         //log.info("Bytes: " + b1 + ", " + b2 + ", " + b3);
 
         // Call 16/18 bit specific conversion method
-        int distance = convert(b1, b2, b3);
-
-        return distance;
+        return convert(b1, b2, b3);
     }
 
 }
