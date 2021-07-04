@@ -16,4 +16,5 @@ pipelines:
             - gradle
           name: Build and Release
           script:
-            - ./gradlew clean build bintrayUpload
+            - ./gradlew clean build #bintrayUpload
+            - shopt -s nullglob ; for file in ${BITBUCKET_CLONE_DIR}/build/libs/*.jar ; do curl -X POST --user "${BB_AUTH_STRING}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"${file}" ; done
