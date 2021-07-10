@@ -1,9 +1,9 @@
 **/bin
 **/.settings
 **/build
-.idea
-.gradle
-.vscode
+.idea/
+.gradle/
+.vscode/
 .project
 .classpath
 **/*.rej

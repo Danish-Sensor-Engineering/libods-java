@@ -20,7 +20,7 @@ import java.util.EventObject;
 
 public class TelegramResultEvent extends EventObject {
 
-    private int measurement;
+    private final int measurement;
 
     public TelegramResultEvent(Object source, int measurement ) {
         super( source );

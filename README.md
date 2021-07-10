@@ -14,38 +14,36 @@ We use the cross-platform [jSerialComm](https://fazecast.github.io/jSerialComm/)
 Create a SerialSensor object, specify TelegramHandler and open the correct serial port:
 
 ```java
-    SerialSensor serialSensor = new SerialSensor();
-    serialSensor.setTelegramHandler(new TelegramHandler16Bit());
-    serialSensor.openPort("ttyUSB0", 38400);
-    // Setup event listener ...
-    serialSensor.closePort();
+SerialSensor serialSensor = new SerialSensor();
+serialSensor.setTelegramHandler(new TelegramHandler16Bit());
+serialSensor.openPort("ttyUSB0", 38400);
+// Setup event listener ...
+serialSensor.closePort();
 ```
 
 You obtain measurement results by implementing the **TelegramListener** interface, providing a **onTelegramResultEvent(TelegramResultEvent event)** method, which will be called on each measurement received:
 
+<<<<<<< HEAD
 ```java
-    public class MyTest implements TelegramListener {
-        @Override
-        public void onTelegramResultEvent(TelegramResultEvent event) {
-            System.out.println("Result: " + event.getMeasurement());
-        }
+public class MyTest implements TelegramListener {
+    @Override
+    public void onTelegramResultEvent(TelegramResultEvent event) {
+        System.out.println("Result: " + event.getMeasurement());
     }
+}
 ```
 
 #### Gradle
 
-To use the library in a Gradle build, add our bintray repository and add the required compile dependencies:
+To use the library in a Gradle build, download the libsensor jar into *libs/* or another local folder, and include as shown:
 
 
+<<<<<<< HEAD
 ```groovy
-    repositories {
-        maven { url 'https://dl.bintray.com/mnellemann/libs' }
-    }
-
-    dependencies {
-        compile 'biz.nellemann.libs:libsensor:1.0.2'      // Include the DSE library
-        compile('com.fazecast:jSerialComm:[2.0.0,3.0.0)') // Include the jSerialComm library
-    }
+dependencies {
+    implementation files('libs/libsensor-x.y.z.jar')         // Include the DSE library
+    implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)') // Include the jSerialComm library
+}
 ```
 
 
