@@ -16,7 +16,7 @@ repositories {
 dependencies {
 
     // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api('com.fazecast:jSerialComm:[2.0.0,3.0.0)')
+    api('com.fazecast:jSerialComm:2.7.0')
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("org.slf4j:slf4j-api:${slf4jVersion}")
@@ -29,7 +29,7 @@ dependencies {
 
     // Use the awesome Spock testing and specification framework even with Java
     testImplementation("org.spockframework:spock-core:${spockVersion}")
-    testImplementation('junit:junit:4.12')
+    testImplementation('junit:junit:4.13.2')
 }
 
 compileJava {
