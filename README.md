@@ -23,7 +23,6 @@ serialSensor.closePort();
 
 You obtain measurement results by implementing the **TelegramListener** interface, providing a **onTelegramResultEvent(TelegramResultEvent event)** method, which will be called on each measurement received:
 
-<<<<<<< HEAD
 ```java
 public class MyTest implements TelegramListener {
     @Override
@@ -38,7 +37,6 @@ public class MyTest implements TelegramListener {
 To use the library in a Gradle build, download the libsensor jar into *libs/* or another local folder, and include as shown:
 
 
-<<<<<<< HEAD
 ```groovy
 dependencies {
     implementation files('libs/libsensor-x.y.z.jar')         // Include the DSE library
@@ -54,13 +52,15 @@ TODO.
 
 ### Examples
 
-See [our full example](https://bitbucket.org/nellemann_biz/libsensor/src/master/src/main/java/biz/nellemann/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
+See [our full example](src/main/java/biz/nellemann/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
 
 
 ## Development
 
 To build and test the library, checkout the code from this repository and use the Gradle build tool as shown:
 
-    ./gradlew clean build
+```shell
+./gradlew clean build
+```
 
 On Windows execute ```gradlew.bat``` in a terminal, or use an IDE that support Gradle projects.
