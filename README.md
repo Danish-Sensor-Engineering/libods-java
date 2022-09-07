@@ -5,7 +5,7 @@ Java library for communicating with, and decoding measurement telegrams from Opt
 
 ## Requirements
 
-Java (ver 8 or later) - [OpenJDK](https://adoptopenjdk.net/), Oracle JDK, or any other Java JDK, is required to build and run.
+Java (8 or later) - [OpenJDK](https://adoptopenjdk.net/), Oracle JDK, or any other Java JDK, is required to build and run.
 
 We use the cross-platform [jSerialComm](https://fazecast.github.io/jSerialComm/) library for serial port communication, which must also be included when using this library.
 
@@ -39,35 +39,40 @@ To use the library in a Gradle build, download the libsensor jar into *libs/* or
 
 ```groovy
 dependencies {
-    //implementation files('libs/libsensor-x.y.z.jar')       // Include the DSE library from local folder
-    implementation files('dse.libs/libsensor:1+')            // Include the DSE library from maven repository
-    implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)') // Include the jSerialComm library
+    //implementation files('libs/libsensor-x.y.z.jar')                  // Include the DSE library from local folder
+    implementation 'com.github.Danish-Sensor-Engineering:libsensor:1.+' // Include the DSE library from maven repository
+    implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)')            // Include the jSerialComm library
 }
 
 repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/Danish-Sensor-Engineering/libsensor")
-    }
+    maven { url 'https://jitpack.io' }
 }
 ```
 
 
 #### Maven
 
-TODO: Include the github.com/Danish-Sensor-Engineering repository.
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
 
 ```xml
 <dependency>
-    <groupId>dse.libs</groupId>
+    <groupId>com.github.Danish-Sensor-Engineering</groupId>
     <artifactId>libsensor</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
 </dependency>
 ```
 
 
 ### Examples
 
-See [our full example](src/main/java/biz/nellemann/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
+See [our full example](src/main/java/dse/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
 
 
 ## Development
