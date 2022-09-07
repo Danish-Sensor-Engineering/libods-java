@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package dse.libsensor;
 
-public class TelegramHandler18Bit extends TelegramHandler {
+import java.util.EventObject;
 
-    protected int convert(final int d1, final int d2, final int d3) {
-        return (1024 * d3) + (4 * d2) + (d1 & 3);
+public class TelegramResultEvent extends EventObject {
+
+    private final int measurement;
+
+    public TelegramResultEvent(Object source, int measurement ) {
+        super( source );
+        this.measurement = measurement;
     }
 
-    protected boolean isHeader(int h) {
-        if(h == 168 || h == 169 || h == 170 || h == 171)
-            return true;
-
-        return h == 84 || h == 85 || h == 86 || h == 87;
-    }
-
-    public String toString() {
-        return "18bit";
+    public int getMeasurement() {
+        return measurement;
     }
 }

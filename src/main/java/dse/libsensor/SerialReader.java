@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package dse.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
 import org.slf4j.Logger;

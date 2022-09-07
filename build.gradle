@@ -26,6 +26,11 @@ compileJava {
 }
 
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 test {
     useJUnitPlatform()
 }
@@ -60,8 +65,8 @@ jacocoTestCoverageVerification {
         rule {
             element = 'CLASS'
             includes = [
-                'biz.nellemann.libsensor.TelegramHandler16Bit',
-                'biz.nellemann.libsensor.TelegramHandler18Bit'
+                'dse.libsensor.TelegramHandler16Bit',
+                'dse.libsensor.TelegramHandler18Bit'
             ]
             limit { // See: https://www.eclemma.org/jacoco/trunk/doc/counters.html
                 counter = 'METHOD'

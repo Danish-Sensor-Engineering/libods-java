@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package dse.libsensor;
 
-public interface TelegramListener {
-    public void onTelegramResultEvent(TelegramResultEvent event);
-    public void onTelegramErrorEvent(TelegramErrorEvent error);
+import java.util.EventObject;
+
+public class TelegramErrorEvent extends EventObject {
+
+    private final TelegramError error;
+
+    public TelegramErrorEvent(Object source, TelegramError error ) {
+        super( source );
+        this.error = error;
+    }
+
+    public int getId() {
+        return error.getId();
+    }
+    public String getMessage() {
+        return error.getMessage();
+    }
+
+    public String toString() {
+        return(error.getId() + " - " + error.getMessage());
+    }
 }

@@ -14,27 +14,19 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package dse.libsensor;
 
-import java.util.EventObject;
+public class TelegramHandler16Bit extends TelegramHandler {
 
-public class TelegramErrorEvent extends EventObject {
-
-    private final TelegramError error;
-
-    public TelegramErrorEvent(Object source, TelegramError error ) {
-        super( source );
-        this.error = error;
+    protected int convert(final int d1, final int d2, final int d3) {
+        return 256 * d3 + d2;
     }
 
-    public int getId() {
-        return error.getId();
-    }
-    public String getMessage() {
-        return error.getMessage();
+    protected boolean isHeader(int h) {
+        return h == 85 || h == 170;
     }
 
     public String toString() {
-        return(error.getId() + " - " + error.getMessage());
+        return "16bit";
     }
 }

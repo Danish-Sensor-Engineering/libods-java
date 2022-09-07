@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package biz.nellemann.libsensor;
+package dse.libsensor
 
-import java.util.EventObject;
+import spock.lang.Specification
 
-public class TelegramResultEvent extends EventObject {
+class SensorSpec extends Specification {
 
-    private final int measurement;
+    def sensor = new Sensor()
 
-    public TelegramResultEvent(Object source, int measurement ) {
-        super( source );
-        this.measurement = measurement;
-    }
+    // Test avg. function
 
-    public int getMeasurement() {
-        return measurement;
-    }
+    // Test error codes
+
+
 }
