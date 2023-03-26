@@ -17,15 +17,11 @@
 package dse.libsensor;
 
 import com.fazecast.jSerialComm.SerialPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SerialReader implements Runnable {
-
-    private final static Logger log = LoggerFactory.getLogger(SerialReader.class);
 
     private final Sensor sensor;
     private final SerialPort comPort;

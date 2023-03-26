@@ -16,14 +16,9 @@
 
 package dse.libsensor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayDeque;
 
 public abstract class TelegramHandler {
-
-    private final static Logger log = LoggerFactory.getLogger(TelegramHandler.class);
 
     // Implemented as either 16bit or 18bit in inherited class
     abstract protected int convert(int d1, int d2, int d3);
