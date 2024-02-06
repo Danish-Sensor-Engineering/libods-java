@@ -24,8 +24,8 @@ compileJava {
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 test {
@@ -51,7 +51,7 @@ publishing {
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.11"
 }
 
 jacocoTestReport {
@@ -59,7 +59,7 @@ jacocoTestReport {
     reports {
         xml.required = false
         csv.required = false
-        html.destination file("${buildDir}/reports/coverage")
+        html.outputLocation = layout.buildDirectory.dir('reports/coverage')
     }
 }
 test.finalizedBy jacocoTestReport
