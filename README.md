@@ -40,7 +40,7 @@ To use the library in a Gradle build, download the libsensor jar into *libs/* or
 ```groovy
 dependencies {
     //implementation files('libs/libsensor-x.y.z.jar')                  // Include the DSE library from local folder
-    implementation 'com.github.Danish-Sensor-Engineering:libsensor:2.+' // Include the DSE library from maven repository
+    implementation 'com.github.Danish-Sensor-Engineering:libsensor:v2.+' // Include the DSE library from maven repository
     implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)')            // Include the jSerialComm library
 }
 
@@ -65,7 +65,7 @@ repositories {
 <dependency>
     <groupId>com.github.Danish-Sensor-Engineering</groupId>
     <artifactId>libsensor</artifactId>
-    <version>2.0.1</version>
+    <version>v2.+</version>
 </dependency>
 ```
 
