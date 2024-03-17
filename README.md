@@ -34,18 +34,16 @@ public class MyTest implements TelegramListener {
 
 #### Gradle
 
-To use the library in a Gradle build, download the libsensor jar into *libs/* or another local folder, and include as shown:
-
+To use the library in a Gradle build, download the libods jar into *libs/* or another local folder, and include as shown:
 
 ```groovy
-dependencies {
-    //implementation files('libs/libsensor-x.y.z.jar')                  // Include the DSE library from local folder
-    implementation 'com.github.Danish-Sensor-Engineering:libsensor:v2.+' // Include the DSE library from maven repository
-    implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)')            // Include the jSerialComm library
-}
-
 repositories {
     maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.Danish-Sensor-Engineering:libods-java:+' // Include the DSE ODS library from maven repository
+    implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)')            // Include the jSerialComm library
 }
 ```
 
@@ -64,15 +62,15 @@ repositories {
 ```xml
 <dependency>
     <groupId>com.github.Danish-Sensor-Engineering</groupId>
-    <artifactId>libsensor</artifactId>
-    <version>v2.+</version>
+    <artifactId>libods-java</artifactId>
+    <version>[v3.0,)</version>
 </dependency>
 ```
 
 
 ### Examples
 
-See [our full example](src/main/java/dse/libsensor/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
+See [our full example](src/main/java/dse/libods-java/SerialDemo.java) for communicating with an 16Bit ODS Sensor through the serial port.
 
 
 ## Development

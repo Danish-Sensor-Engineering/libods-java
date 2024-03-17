@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dse.libsensor;
+package dse.libods;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -48,17 +48,8 @@ public class SerialReader implements Runnable {
 
             while (running.get()) {
 
-                //bytesRead = comPort.readBytes(tmpBuffer, tmpBuffer.length);
                 comPort.readBytes(tmpBuffer, tmpBuffer.length);
                 readBuffer.add((int) tmpBuffer[0] & 0xFF); // NOTE: To get unsigned int !!!
-
-                /* // If we read more than 1byte each time
-                if(bytesRead > 4) {
-                    for(int i = 0; i < bytesRead; i++) {
-                        readBuffer.add((int) tmpBuffer[i] & 0xFF); // NOTE: To get unsigned int !!!
-                        //log.info("Read: " + String.format("0x%02X / %02d", tmpBuffer[i], tmpBuffer[i]));
-                    }
-                }*/
 
                 // Remove non-header bytes from start of queue
                 if(!readBuffer.isEmpty() && !sensor.telegramHandler.isHeader(readBuffer.peek())) {

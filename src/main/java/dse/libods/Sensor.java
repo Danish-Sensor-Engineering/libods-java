@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dse.libsensor;
+package dse.libods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,15 +27,21 @@ public class Sensor {
      * Various Configurable Options
      */
 
-    public int doAverageOver = 10;
+    public int movingPoints = 1000; // Size of moving data points to calculate average on
+    public int interval = 10;  // Every n interval we send measurement event
 
 
     /**
      * Private Fields
      */
 
-    private int avgIntCounter;
-    private int[] avgIntArray;
+    private int intervalCounter = 0;
+    private int[] movingPointsArray  = new int[movingPoints];
+    private int pointsObserved = 0;
+    private int movingPointsAvg = 0;
+    private int movingPointsMin = 0;
+    private int movingPointsMax = 0;
+
 
 
     /**
@@ -77,8 +83,9 @@ public class Sensor {
 
 
     protected void clear() {
-        avgIntCounter = 0;
-        avgIntArray = new int[this.doAverageOver];
+        intervalCounter = 0;
+        pointsObserved = 0;
+        movingPointsArray = new int[this.movingPoints];
     }
 
 
@@ -89,27 +96,24 @@ public class Sensor {
             return;
         }
 
-        if(doAverageOver > 0) {
-            //log.info("Adding to avg. buffer: " + measurement);
-            avgIntArray[avgIntCounter] = measurement;
-            avgIntCounter++;
-        } else {
-            //log.info("Send event: " + measurement);
-            sendEvent(measurement);
-        }
+        movingPointsArray[pointsObserved++] = measurement;
+        if(intervalCounter > ++interval) {
+            intervalCounter = 0;
+            if(movingPoints > 0 && pointsObserved >= movingPointsArray.length) {
+                pointsObserved = 0;
+                movingPointsAvg = (int) Arrays.stream(movingPointsArray).average().orElse(Double.NaN);
+                movingPointsMin = Arrays.stream(movingPointsArray).min().orElse(0);
+                movingPointsMax = Arrays.stream(movingPointsArray).max().orElse(0);
+            }
 
-        if(doAverageOver > 0 && avgIntCounter >= avgIntArray.length) {
-            avgIntCounter = 0;
-            double avg = Arrays.stream(avgIntArray).average().orElse(Double.NaN);
-            //log.info("Send event: " + avg.intValue());
-            sendEvent((int) avg);
+            TelegramResultEvent event = new TelegramResultEvent( this, measurement, movingPointsAvg, movingPointsMin, movingPointsMax);
+            sendEvent(event);
         }
 
     }
 
 
-    private synchronized void sendEvent(int measurement) {
-        TelegramResultEvent event = new TelegramResultEvent( this, measurement );
+    private synchronized void sendEvent(TelegramResultEvent event) {
         for (TelegramListener eventListener : eventListeners) {
             eventListener.onTelegramResultEvent(event);
         }

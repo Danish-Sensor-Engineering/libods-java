@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dse.libsensor
+package dse.libods
 
 import spock.lang.Specification
 
