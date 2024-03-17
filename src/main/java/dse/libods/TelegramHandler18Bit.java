@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dse.libsensor;
+package dse.libods;
 
 public class TelegramHandler18Bit extends TelegramHandler {
 

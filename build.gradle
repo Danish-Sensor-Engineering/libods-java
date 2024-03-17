@@ -36,7 +36,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Danish-Sensor-Engineering/libsensor")
+            url = uri("https://maven.pkg.github.com/Danish-Sensor-Engineering/libods-java")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
@@ -69,8 +69,8 @@ jacocoTestCoverageVerification {
         rule {
             element = 'CLASS'
             includes = [
-                'dse.libsensor.TelegramHandler16Bit',
-                'dse.libsensor.TelegramHandler18Bit'
+                'dse.libods.TelegramHandler16Bit',
+                'dse.libods.TelegramHandler18Bit'
             ]
             limit { // See: https://www.eclemma.org/jacoco/trunk/doc/counters.html
                 counter = 'METHOD'

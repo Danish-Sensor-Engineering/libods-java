@@ -14,20 +14,49 @@
  * limitations under the License.
  */
 
-package dse.libsensor;
+package dse.libods;
 
 import java.util.EventObject;
 
 public class TelegramResultEvent extends EventObject {
 
     private final int measurement;
+    private final int movingAvg;
+    private final int movingMin;
+    private final int movingMax;
+
 
     public TelegramResultEvent(Object source, int measurement ) {
         super( source );
         this.measurement = measurement;
+        this.movingMin = 0;
+        this.movingMax = 0;
+        this.movingAvg = 0;
     }
+
+    public TelegramResultEvent(Object source, int measurement, int avg, int min, int max ) {
+        super( source );
+        this.measurement = measurement;
+        this.movingAvg = avg;
+        this.movingMin = min;
+        this.movingMax = max;
+    }
+
 
     public int getMeasurement() {
         return measurement;
     }
+
+    public int getAverage() {
+        return movingAvg;
+    }
+
+    public int getMinimum() {
+        return movingMin;
+    }
+
+    public int getMaximum() {
+        return movingMax;
+    }
+
 }

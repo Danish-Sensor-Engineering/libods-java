@@ -1,4 +1,4 @@
-module dse.libsensor {
+module dse.libods {
     requires com.fazecast.jSerialComm;
-    exports dse.libsensor;
+    exports dse.libods;
 }
