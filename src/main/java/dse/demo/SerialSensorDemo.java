@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package dse.libods;
+package dse.demo;
 
-public class SerialDemo implements TelegramListener {
+import dse.libods.*;
+
+public class SerialSensorDemo implements TelegramListener {
 
     final SerialSensor serialSensor;
 
@@ -27,19 +29,20 @@ public class SerialDemo implements TelegramListener {
         }
 
         // Pass 1st argument into the SerialDemo constructor
-        new SerialDemo(args[0]);
+        new SerialSensorDemo(args[0]);
     }
 
 
     // Initialize with serial port name as argument
-    public SerialDemo(String portName) {
+    public SerialSensorDemo(String portName) {
 
         serialSensor = new SerialSensor();
-        serialSensor.setTelegramHandler(new TelegramHandler16Bit());
+        serialSensor.setTelegramHandler(new TelegramHandler18Bit());
+        //serialSensor.setTelegramHandler(new TelegramHandler16Bit());
         serialSensor.addEventListener(this);
 
-        // Setup serial port, start listener and add observer (this Observer class)
-        serialSensor.openPort(portName, 38400);
+        // Setup serial port and baud-rate, start listener and add observer (this TelegramListener class)
+        serialSensor.openPort(portName, 115200);
 
         // Keep running for some seconds
         try {

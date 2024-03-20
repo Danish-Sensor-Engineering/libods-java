@@ -97,19 +97,18 @@ public class Sensor {
         }
 
         movingPointsArray[pointsObserved++] = measurement;
-        if(intervalCounter > ++interval) {
-            intervalCounter = 0;
-            if(movingPoints > 0 && pointsObserved >= movingPointsArray.length) {
-                pointsObserved = 0;
-                movingPointsAvg = (int) Arrays.stream(movingPointsArray).average().orElse(Double.NaN);
-                movingPointsMin = Arrays.stream(movingPointsArray).min().orElse(0);
-                movingPointsMax = Arrays.stream(movingPointsArray).max().orElse(0);
-            }
+        if(pointsObserved >= movingPoints) {
+            pointsObserved = 0;
+            movingPointsAvg = (int) Arrays.stream(movingPointsArray).average().orElse(Double.NaN);
+            movingPointsMin = Arrays.stream(movingPointsArray).min().orElse(0);
+            movingPointsMax = Arrays.stream(movingPointsArray).max().orElse(0);
+        }
 
+        if(++intervalCounter > interval) {
+            intervalCounter = 0;
             TelegramResultEvent event = new TelegramResultEvent( this, measurement, movingPointsAvg, movingPointsMin, movingPointsMax);
             sendEvent(event);
         }
-
     }
 
 
