@@ -37,7 +37,7 @@ public class Sensor {
 
     private int intervalCounter = 0;
     private int[] movingPointsArray  = new int[movingPoints];
-    private int pointsObserved = 0;
+    private int pointsObserved = 0;  // We want to have data for avg. before observing x data points
     private int movingPointsAvg = 0;
     private int movingPointsMin = 0;
     private int movingPointsMax = 0;
@@ -98,10 +98,10 @@ public class Sensor {
 
         movingPointsArray[pointsObserved++] = measurement;
         if(pointsObserved >= movingPoints) {
+            movingPointsAvg = (int) Arrays.stream(movingPointsArray).average().orElse(measurement);
+            movingPointsMin = Arrays.stream(movingPointsArray).min().orElse(measurement);
+            movingPointsMax = Arrays.stream(movingPointsArray).max().orElse(measurement);
             pointsObserved = 0;
-            movingPointsAvg = (int) Arrays.stream(movingPointsArray).average().orElse(Double.NaN);
-            movingPointsMin = Arrays.stream(movingPointsArray).min().orElse(0);
-            movingPointsMax = Arrays.stream(movingPointsArray).max().orElse(0);
         }
 
         if(++intervalCounter > interval) {

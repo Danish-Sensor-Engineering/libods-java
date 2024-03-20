@@ -48,15 +48,15 @@ public class TelegramResultEvent extends EventObject {
     }
 
     public int getAverage() {
-        return movingAvg;
+        return (movingAvg > 0) ? movingAvg : measurement;
     }
 
     public int getMinimum() {
-        return movingMin;
+        return (movingMin > 0) ? movingMin : measurement;
     }
 
     public int getMaximum() {
-        return movingMax;
+        return (movingMax > 0) ? movingMax : measurement;
     }
 
 }
