@@ -17,6 +17,7 @@
 package dse.libods;
 
 import java.util.ArrayDeque;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TelegramGenerator implements Runnable {
@@ -34,14 +35,15 @@ public class TelegramGenerator implements Runnable {
     @Override
     public void run() {
 
-        int n = 100;
+        Random r = new Random();
+        int low = 11;
+        int high = 15;
 
         while (running.get()) {
 
-            // TODO: Generate better semi random telegrams
             readBuffer.add(170);
             readBuffer.add(139);
-            readBuffer.add(n++);
+            readBuffer.add(r.nextInt(high-low) + low);
 
             // Convert telegram to measurement
             int measurement = sensor.telegramHandler.process(readBuffer);
@@ -51,13 +53,9 @@ public class TelegramGenerator implements Runnable {
 
             // Sleep for some time ...
             try {
-                Thread.sleep(20);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-
-            if(n == Integer.MAX_VALUE) {
-                n = 100;
             }
 
         }
