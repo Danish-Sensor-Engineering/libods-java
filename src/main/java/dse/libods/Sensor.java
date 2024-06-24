@@ -27,8 +27,8 @@ public class Sensor {
      * Various Configurable Options
      */
 
-    public int movingPoints = 100; // Size of moving data points to calculate average on
-    public int interval = 10;  // Every n interval we send measurement event
+    public int movingPoints = 100;  // Size of moving data points to calculate average on
+    public int interval = 10;       // Every n interval we send measurement event
 
 
     /**
