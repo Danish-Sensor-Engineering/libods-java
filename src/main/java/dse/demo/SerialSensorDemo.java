@@ -48,7 +48,7 @@ public class SerialSensorDemo implements TelegramListener {
         try {
             Thread.sleep(5000L);
         } catch (final InterruptedException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
 
         // Stop listener and close port

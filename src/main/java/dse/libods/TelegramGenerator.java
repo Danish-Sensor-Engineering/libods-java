@@ -53,7 +53,8 @@ public class TelegramGenerator implements Runnable {
 
             // Sleep for some time ...
             try {
-                Thread.sleep(5);
+                //noinspection BusyWait
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

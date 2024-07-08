@@ -24,7 +24,7 @@ public abstract class TelegramHandler {
     abstract protected int convert(int d1, int d2, int d3);
     abstract protected boolean isHeader(int h);
 
-    // Get's a Stack<Byte> (byte[]) of at least 4 elements (0-3)
+    // Get a Stack<Byte> (byte[]) of at least 4 elements (0-3)
     protected synchronized int process(ArrayDeque<Integer> readBuffer) {
 
         if(readBuffer.size() < 4) {

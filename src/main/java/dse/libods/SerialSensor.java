@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * This is mostly a wrapper for the jSerialComm library
- * https://fazecast.github.io/jSerialComm/
+ * <a href="https://fazecast.github.io/jSerialComm/">...</a>
  */
 public class SerialSensor extends Sensor {
 
@@ -88,7 +88,7 @@ public class SerialSensor extends Sensor {
             try {
                 readerThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
         }
     }

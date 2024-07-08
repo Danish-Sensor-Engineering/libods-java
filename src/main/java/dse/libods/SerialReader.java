@@ -67,7 +67,7 @@ public class SerialReader implements Runnable {
 
             }
 
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) { System.err.println(e.getMessage()); }
     }
 
 
